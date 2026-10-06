@@ -7,3 +7,11 @@ Click **Edit text** at the bottom right, then click any highlighted text. **Save
 Serve dist/ with any static server. No build step is needed. Enquiry opens the visitor’s email application; there is no booking backend. Contact details and the testimonial were transcribed from the supplied reference. The logo and generated photographs are recreations; the original font files were not supplied. Fonts are self-hosted Cormorant Garamond, Poppins and Allura.
 
 Generated photos live in dist/assets/. The ImageGen prompt set is in IMAGE-PROMPTS.md.
+
+## Pages
+
+- Home: dist/index.html
+- Contact Us: dist/contact.html — contact details and a validated enquiry form that opens the visitor’s email app.
+- Gallery: dist/gallery.html — ten photos, category filters and a full-size viewer.
+
+Both new pages reuse the header, footer, fonts and image assets. Additional page layouts live in dist/pages.css. Browser text edits are stored separately for each page; exported HTML uses that page’s filename.

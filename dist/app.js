@@ -59,20 +59,125 @@ function initDatePickers(){
 initDatePickers();
 
 
-// Mobile navigation
-const menuToggle=$('.menu-toggle');
-if(menuToggle){
-  menuToggle.addEventListener('click',()=>{
-    const nav=$('header nav');
-    const open=nav.classList.toggle('open');
-    menuToggle.setAttribute('aria-expanded',open);
+// Mobile navigation slide-out drawer
+const menuToggle = $('.menu-toggle');
+const headerNav = $('header nav');
+
+if (menuToggle && headerNav) {
+  // Create backdrop if not already created
+  let backdrop = $('.nav-backdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'nav-backdrop';
+    document.body.appendChild(backdrop);
+  }
+
+  // Inject Drawer Header if not present
+  if (!headerNav.querySelector('.drawer-header')) {
+    const drawerHeader = document.createElement('div');
+    drawerHeader.className = 'drawer-header';
+    drawerHeader.innerHTML = `
+      <div class="drawer-brand">
+        <svg><use href="#tree"/></svg>
+        <span>Cotter Safaris</span>
+      </div>
+      <button class="drawer-close" aria-label="Close navigation">✕</button>
+    `;
+    headerNav.insertBefore(drawerHeader, headerNav.firstChild);
+  }
+
+  // Wrap links into .drawer-links container if not already wrapped
+  let linksWrap = headerNav.querySelector('.drawer-links');
+  if (!linksWrap) {
+    linksWrap = document.createElement('div');
+    linksWrap.className = 'drawer-links';
+    const topLinks = Array.from(headerNav.querySelectorAll(':scope > a'));
+    topLinks.forEach(link => linksWrap.appendChild(link));
+    const drawerHeader = headerNav.querySelector('.drawer-header');
+    if (drawerHeader && drawerHeader.nextSibling) {
+      headerNav.insertBefore(linksWrap, drawerHeader.nextSibling);
+    } else {
+      headerNav.appendChild(linksWrap);
+    }
+  }
+
+  // Inject Drawer Footer with contact details and social handles (Facebook, Instagram, TikTok, WhatsApp)
+  if (!headerNav.querySelector('.drawer-footer')) {
+    const drawerFooter = document.createElement('div');
+    drawerFooter.className = 'drawer-footer';
+    drawerFooter.innerHTML = `
+      <div class="drawer-contact-block">
+        <span class="drawer-section-title">Direct Reservations &amp; Inquiries</span>
+        <a href="tel:+27821234567" class="drawer-phone-link">
+          <i class="fa-solid fa-phone"></i>
+          <span>+27 82 123 4567</span>
+        </a>
+        <a href="mailto:info@cottersafaris.co.za" class="drawer-email-link">
+          <i class="fa-solid fa-envelope"></i>
+          <span>info@cottersafaris.co.za</span>
+        </a>
+      </div>
+      <div class="drawer-social-block">
+        <span class="drawer-section-title">Connect With Us</span>
+        <div class="drawer-social-row">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="drawer-social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="drawer-social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://tiktok.com" target="_blank" rel="noopener" class="drawer-social-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://wa.me/27821234567?text=Hello%20Michael,%20I'm%20interested%20in%20planning%20a%20Kruger%20safari." target="_blank" rel="noopener" class="drawer-social-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <button class="button drawer-plan-btn" data-enquire>
+        <span>Plan Your Safari</span>
+        <svg><use href="#arrow"/></svg>
+      </button>
+    `;
+    headerNav.appendChild(drawerFooter);
+
+    // Bind modal open for newly created button
+    const newPlanBtn = drawerFooter.querySelector('[data-enquire]');
+    if (newPlanBtn) {
+      newPlanBtn.addEventListener('click', () => {
+        closeDrawer();
+        const dlg = $('#enquiry');
+        if (dlg && dlg.showModal) dlg.showModal();
+      });
+    }
+  }
+
+  function openDrawer() {
+    headerNav.classList.add('open');
+    if (backdrop) backdrop.classList.add('open');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    headerNav.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (headerNav.classList.contains('open')) {
+      closeDrawer();
+    } else {
+      openDrawer();
+    }
   });
+
+  if (backdrop) {
+    backdrop.addEventListener('click', closeDrawer);
+  }
+
+  const closeBtn = headerNav.querySelector('.drawer-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeDrawer);
+  }
+
+  headerNav.querySelectorAll('.drawer-links a').forEach(a => a.addEventListener('click', closeDrawer));
 }
-$$('header nav a').forEach(a=>a.addEventListener('click',()=>{
-  const nav=$('header nav');
-  if(nav) nav.classList.remove('open');
-  if(menuToggle) menuToggle.setAttribute('aria-expanded','false');
-}));
 
 // Active section observer on homepage
 const sectionObserver=new IntersectionObserver(entries=>entries.forEach(e=>{
@@ -358,9 +463,17 @@ function sendUserMessage(text){
 if(chatFab && chatDrawer){
   chatFab.addEventListener('click',()=>{
     chatDrawer.hidden=!chatDrawer.hidden;
-    if(!chatDrawer.hidden && chatInput) chatInput.focus();
+    if(!chatDrawer.hidden) {
+      document.body.classList.add('chat-open');
+      if(chatInput) chatInput.focus();
+    } else {
+      document.body.classList.remove('chat-open');
+    }
   });
-  if(chatClose) chatClose.addEventListener('click',()=>{ chatDrawer.hidden=true; });
+  if(chatClose) chatClose.addEventListener('click',()=>{ 
+    chatDrawer.hidden=true; 
+    document.body.classList.remove('chat-open');
+  });
   
   if(chatSend && chatInput){
     chatSend.addEventListener('click',()=>{

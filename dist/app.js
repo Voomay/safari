@@ -59,83 +59,88 @@ function initDatePickers(){
 initDatePickers();
 
 
-// Mobile navigation slide-out drawer
-const menuToggle = $('.menu-toggle');
-const headerNav = $('header nav');
+// Dedicated Mobile Slide-Out Drawer attached directly to document.body
+(function initMobileDrawer() {
+  const menuToggle = $('.menu-toggle');
+  if (!menuToggle) return;
 
-if (menuToggle && headerNav) {
-  // Create backdrop if not already created
-  let backdrop = $('.nav-backdrop');
+  // Clean up any old injected elements
+  const oldBackdrop = $('.nav-backdrop');
+  if (oldBackdrop) oldBackdrop.remove();
+
+  // Create mobile drawer and backdrop directly on document.body
+  let backdrop = $('#mobile-nav-backdrop');
   if (!backdrop) {
     backdrop = document.createElement('div');
-    backdrop.className = 'nav-backdrop';
+    backdrop.id = 'mobile-nav-backdrop';
+    backdrop.className = 'mobile-nav-backdrop';
     document.body.appendChild(backdrop);
   }
 
-  // Inject Drawer Header if not present
-  if (!headerNav.querySelector('.drawer-header')) {
-    const drawerHeader = document.createElement('div');
-    drawerHeader.className = 'drawer-header';
-    drawerHeader.innerHTML = `
-      <div class="drawer-brand">
-        <img src="assets/logo-light.png" alt="Cotter Safaris" style="height:36px;width:auto;display:block;">
-      </div>
-      <button class="drawer-close" aria-label="Close navigation">✕</button>
-    `;
-    headerNav.insertBefore(drawerHeader, headerNav.firstChild);
-  }
+  let drawer = $('#mobile-nav-drawer');
+  if (!drawer) {
+    drawer = document.createElement('aside');
+    drawer.id = 'mobile-nav-drawer';
+    drawer.className = 'mobile-nav-drawer';
+    drawer.setAttribute('aria-label', 'Mobile Navigation');
+    
+    const path = window.location.pathname;
+    const isHome = path.endsWith('index.html') || path.endsWith('/') || path === '';
+    const isAbout = path.includes('about');
+    const isKruger = path.includes('kruger');
+    const isGallery = path.includes('gallery');
+    const isSafety = path.includes('safety');
+    const isContact = path.includes('contact');
 
-  // Wrap links into .drawer-links container if not already wrapped
-  let linksWrap = headerNav.querySelector('.drawer-links');
-  if (!linksWrap) {
-    linksWrap = document.createElement('div');
-    linksWrap.className = 'drawer-links';
-    const topLinks = Array.from(headerNav.querySelectorAll(':scope > a'));
-    topLinks.forEach(link => linksWrap.appendChild(link));
-    const drawerHeader = headerNav.querySelector('.drawer-header');
-    if (drawerHeader && drawerHeader.nextSibling) {
-      headerNav.insertBefore(linksWrap, drawerHeader.nextSibling);
-    } else {
-      headerNav.appendChild(linksWrap);
-    }
-  }
-
-  // Inject Drawer Footer with contact details and social handles (Facebook, Instagram, TikTok, WhatsApp)
-  if (!headerNav.querySelector('.drawer-footer')) {
-    const drawerFooter = document.createElement('div');
-    drawerFooter.className = 'drawer-footer';
-    drawerFooter.innerHTML = `
-      <div class="drawer-contact-block">
-        <span class="drawer-section-title">Direct Reservations &amp; Inquiries</span>
-        <a href="tel:+27821234567" class="drawer-phone-link">
-          <i class="fa-solid fa-phone"></i>
-          <span>+27 82 123 4567</span>
+    drawer.innerHTML = `
+      <div class="m-drawer-header">
+        <a href="${isHome ? '#home' : 'index.html#home'}" class="m-drawer-brand">
+          <img src="assets/logo-light.png" alt="Cotter Safaris" class="m-drawer-logo">
         </a>
-        <a href="mailto:info@cottersafaris.co.za" class="drawer-email-link">
-          <i class="fa-solid fa-envelope"></i>
-          <span>info@cottersafaris.co.za</span>
-        </a>
+        <button class="m-drawer-close" id="mobile-nav-close" aria-label="Close navigation">✕</button>
       </div>
-      <div class="drawer-social-block">
-        <span class="drawer-section-title">Connect With Us</span>
-        <div class="drawer-social-row">
-          <a href="https://facebook.com" target="_blank" rel="noopener" class="drawer-social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="https://instagram.com" target="_blank" rel="noopener" class="drawer-social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener" class="drawer-social-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-          <a href="https://wa.me/27821234567?text=Hello%20Michael,%20I'm%20interested%20in%20planning%20a%20Kruger%20safari." target="_blank" rel="noopener" class="drawer-social-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      <nav class="m-drawer-nav">
+        <a href="${isHome ? '#home' : 'index.html#home'}" class="${isHome ? 'active' : ''}"><span>Home</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="about.html" class="${isAbout ? 'active' : ''}"><span>About Us</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="${isHome ? '#kruger' : 'kruger.html'}" class="${isKruger ? 'active' : ''}"><span>Kruger Safari</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="gallery.html" class="${isGallery ? 'active' : ''}"><span>Gallery</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="${isHome ? '#pricing' : 'index.html#pricing'}"><span>Pricing</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="${isHome ? '#faq' : 'index.html#faq'}"><span>FAQ</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="safety.html" class="${isSafety ? 'active' : ''}"><span>Safety &amp; Peace of Mind</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="contact.html" class="${isContact ? 'active' : ''}"><span>Contact Us</span><i class="fa-solid fa-chevron-right"></i></a>
+      </nav>
+      <div class="m-drawer-footer">
+        <div class="m-drawer-contact">
+          <span class="m-drawer-section-title">Direct Reservations</span>
+          <a href="tel:+27821234567" class="m-drawer-phone">
+            <i class="fa-solid fa-phone"></i>
+            <span>+27 82 123 4567</span>
+          </a>
+          <a href="mailto:info@cottersafaris.co.za" class="m-drawer-email">
+            <i class="fa-solid fa-envelope"></i>
+            <span>info@cottersafaris.co.za</span>
+          </a>
         </div>
+        <div class="m-drawer-socials">
+          <span class="m-drawer-section-title">Follow Cotter Safaris</span>
+          <div class="m-social-icons">
+            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://wa.me/27821234567?text=Hello%20Michael,%20I'm%20interested%20in%20planning%20a%20Kruger%20safari." target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <button class="button m-drawer-plan-btn" data-enquire>
+          <span>Plan Your Safari</span>
+          <svg><use href="#arrow"/></svg>
+        </button>
       </div>
-      <button class="button drawer-plan-btn" data-enquire>
-        <span>Plan Your Safari</span>
-        <svg><use href="#arrow"/></svg>
-      </button>
     `;
-    headerNav.appendChild(drawerFooter);
+    document.body.appendChild(drawer);
 
-    // Bind modal open for newly created button
-    const newPlanBtn = drawerFooter.querySelector('[data-enquire]');
-    if (newPlanBtn) {
-      newPlanBtn.addEventListener('click', () => {
+    const planBtn = drawer.querySelector('.m-drawer-plan-btn');
+    if (planBtn) {
+      planBtn.addEventListener('click', () => {
         closeDrawer();
         const dlg = $('#enquiry');
         if (dlg && dlg.showModal) dlg.showModal();
@@ -144,39 +149,37 @@ if (menuToggle && headerNav) {
   }
 
   function openDrawer() {
-    headerNav.classList.add('open');
-    if (backdrop) backdrop.classList.add('open');
+    drawer.classList.add('is-open');
+    backdrop.classList.add('is-open');
     menuToggle.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('mobile-nav-open');
   }
 
   function closeDrawer() {
-    headerNav.classList.remove('open');
-    if (backdrop) backdrop.classList.remove('open');
+    drawer.classList.remove('is-open');
+    backdrop.classList.remove('is-open');
     menuToggle.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+    document.body.classList.remove('mobile-nav-open');
   }
 
   menuToggle.addEventListener('click', (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    if (headerNav.classList.contains('open')) {
+    if (drawer.classList.contains('is-open')) {
       closeDrawer();
     } else {
       openDrawer();
     }
   });
 
-  if (backdrop) {
-    backdrop.addEventListener('click', closeDrawer);
-  }
+  backdrop.addEventListener('click', closeDrawer);
+  const closeBtn = drawer.querySelector('#mobile-nav-close');
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
 
-  const closeBtn = headerNav.querySelector('.drawer-close');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeDrawer);
-  }
-
-  headerNav.querySelectorAll('.drawer-links a').forEach(a => a.addEventListener('click', closeDrawer));
-}
+  drawer.querySelectorAll('.m-drawer-nav a').forEach(a => {
+    a.addEventListener('click', closeDrawer);
+  });
+})();
 
 // Active section observer on homepage
 const sectionObserver=new IntersectionObserver(entries=>entries.forEach(e=>{

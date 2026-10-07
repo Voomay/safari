@@ -906,3 +906,84 @@ dialog#enquiry.luxury-modal::backdrop{
   }
 }
 
+/* ========================================================
+   Brand Logo & Hero Padding Enhancements
+   ======================================================== */
+.brand.logo-brand {
+  display: flex !important;
+  align-items: center !important;
+  width: auto !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+.site-logo {
+  height: 60px !important;
+  width: auto !important;
+  max-width: 220px !important;
+  object-fit: contain !important;
+  display: block !important;
+  transition: transform 0.2s ease;
+}
+.site-logo:hover {
+  transform: scale(1.02);
+}
+.footer-site-logo {
+  height: 72px !important;
+  width: auto !important;
+  max-width: 250px !important;
+  object-fit: contain !important;
+  margin-bottom: 16px !important;
+}
+
+/* Enhanced spacious Hero Section */
+.hero {
+  min-height: 88vh !important;
+  padding-top: calc(var(--u) * 11) !important;
+  padding-bottom: calc(var(--u) * 13) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+.hero-content {
+  padding-top: calc(var(--u) * 3) !important;
+  padding-bottom: calc(var(--u) * 3) !important;
+}
+.hero .eyebrow {
+  margin-bottom: calc(var(--u) * 2.2) !important;
+  letter-spacing: .3em !important;
+}
+.hero .buttons {
+  margin-top: calc(var(--u) * 3.8) !important;
+  margin-bottom: calc(var(--u) * 2.5) !important;
+}
+
+@media(max-width: 650px) {
+  header {
+    height: 82px !important;
+  }
+  .site-logo {
+    height: 48px !important;
+    max-width: 170px !important;
+  }
+  .footer-site-logo {
+    height: 58px !important;
+    max-width: 200px !important;
+  }
+  .hero {
+    min-height: 680px !important;
+    padding-top: 110px !important;
+    padding-bottom: 130px !important;
+  }
+  .hero-content {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+  }
+  .hero .eyebrow {
+    margin-bottom: 18px !important;
+  }
+  .hero .buttons {
+    margin-top: 32px !important;
+    margin-bottom: 24px !important;
+  }
+}
+

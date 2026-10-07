@@ -78,8 +78,7 @@ if (menuToggle && headerNav) {
     drawerHeader.className = 'drawer-header';
     drawerHeader.innerHTML = `
       <div class="drawer-brand">
-        <svg><use href="#tree"/></svg>
-        <span>Cotter Safaris</span>
+        <img src="assets/logo-light.png" alt="Cotter Safaris" style="height:36px;width:auto;display:block;">
       </div>
       <button class="drawer-close" aria-label="Close navigation">✕</button>
     `;

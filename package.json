@@ -1,7 +1,7 @@
 {
   "name": "cotter-safaris",
   "version": "1.0.0",
-  "description": "Cotter Safaris website deployed on port 3012",
+  "description": "Cotter Safaris website deployed on port 3003",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

@@ -39,7 +39,7 @@ $$('#enquiry-form,[data-safari-enquiry]').forEach(form=>form.addEventListener('s
   ];
   const lines=fields.filter(([,val])=>val).map(([label,val])=>label+': '+val);
   const body='Hello Michael & Cotter Safaris,\n\nI would like to enquire about planning a Kruger safari:\n\n'+lines.join('\n')+'\n\nSafari Plans & Wishes:\n'+(d.get('message')||'N/A')+'\n\nLooking forward to hearing from you.';
-  location.href='mailto:info@cottersafaris.co.za?subject='+encodeURIComponent('Safari Enquiry — '+(fullName||'Traveller'))+'&body='+encodeURIComponent(body);
+  location.href='mailto:admin@cottersafaris.co.za?subject='+encodeURIComponent('Safari Enquiry — '+(fullName||'Traveller'))+'&body='+encodeURIComponent(body);
 }));
 
 // Setup clickable date inputs
@@ -102,23 +102,25 @@ initDatePickers();
       <nav class="m-drawer-nav">
         <a href="${isHome ? '#home' : 'index.html#home'}" class="${isHome ? 'active' : ''}"><span>Home</span><i class="fa-solid fa-chevron-right"></i></a>
         <a href="about.html" class="${isAbout ? 'active' : ''}"><span>About Us</span><i class="fa-solid fa-chevron-right"></i></a>
-        <a href="${isHome ? '#kruger' : 'kruger.html'}" class="${isKruger ? 'active' : ''}"><span>Kruger Safari</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="team.html" class="${path.includes('team') ? 'active' : ''}"><span>Meet the Team</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="${isHome ? '#safaris' : 'kruger.html'}" class="${isKruger ? 'active' : ''}"><span>Safari Experiences</span><i class="fa-solid fa-chevron-right"></i></a>
         <a href="gallery.html" class="${isGallery ? 'active' : ''}"><span>Gallery</span><i class="fa-solid fa-chevron-right"></i></a>
         <a href="${isHome ? '#pricing' : 'index.html#pricing'}"><span>Pricing</span><i class="fa-solid fa-chevron-right"></i></a>
         <a href="${isHome ? '#faq' : 'index.html#faq'}"><span>FAQ</span><i class="fa-solid fa-chevron-right"></i></a>
         <a href="safety.html" class="${isSafety ? 'active' : ''}"><span>Safety &amp; Peace of Mind</span><i class="fa-solid fa-chevron-right"></i></a>
         <a href="contact.html" class="${isContact ? 'active' : ''}"><span>Contact Us</span><i class="fa-solid fa-chevron-right"></i></a>
+        <a href="https://wa.me/27792464998?text=Hello%20Cotter%20Safaris,%20I%20would%20like%20to%20enquire%20about%20your%20safari%20packages." target="_blank" rel="noopener" style="background:linear-gradient(115deg,#e0b267,#bc8b40);color:#2f2b1c!important;border:1px solid #b28b48;border-radius:6px;padding:10px 14px;margin-top:8px;font-weight:600"><span style="display:flex;align-items:center;gap:8px"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</span><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
       </nav>
       <div class="m-drawer-footer">
         <div class="m-drawer-contact">
           <span class="m-drawer-section-title">Direct Reservations</span>
-          <a href="tel:+27821234567" class="m-drawer-phone">
+          <a href="tel:+27792464998" class="m-drawer-phone">
             <i class="fa-solid fa-phone"></i>
-            <span>+27 82 123 4567</span>
+            <span>079 246 4998</span>
           </a>
-          <a href="mailto:info@cottersafaris.co.za" class="m-drawer-email">
+          <a href="mailto:admin@cottersafaris.co.za" class="m-drawer-email">
             <i class="fa-solid fa-envelope"></i>
-            <span>info@cottersafaris.co.za</span>
+            <span>admin@cottersafaris.co.za</span>
           </a>
         </div>
         <div class="m-drawer-socials">
@@ -127,7 +129,7 @@ initDatePickers();
             <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="https://wa.me/27821234567?text=Hello%20Michael,%20I'm%20interested%20in%20planning%20a%20Kruger%20safari." target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://wa.me/27792464998?text=Hello%20Michael,%20I'm%20interested%20in%20planning%20a%20Kruger%20safari." target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
           </div>
         </div>
         <button class="button m-drawer-plan-btn" data-enquire>
@@ -281,52 +283,62 @@ if(heroSlides.length){
 }
 
 // Lightbox photos
-const photos=[
-  ['leopard','Leopard in the wild'],
-  ['elephants','Iconic African elephants'],
-  ['acacia','Golden African sunset'],
-  ['buffalo','African buffalo'],
-  ['bird','A glimpse of African birdlife'],
-  ['lodge','Luxury safari lodge'],
-  ['lion','The spirit of the wild'],
-  ['landscape','Untamed waterways'],
-  ['giraffes','Grace on the savannah'],
-  ['hero','The journey of a lifetime']
+const photos = [
+  ['assets/safari-media/safari-01.jpeg', 'Elephant & Buffalo at the Waterhole', 'image'],
+  ['assets/safari-media/safari-02.jpeg', 'Giraffes Browsing the Acacia Canopy', 'image'],
+  ['assets/safari-media/safari-03.jpeg', 'Impala Lily in Vibrant Bloom', 'image'],
+  ['assets/safari-media/safari-04.jpeg', 'Giraffes on the Kruger Road', 'image'],
+  ['assets/safari-media/safari-05.jpeg', 'Skukuza Rest Camp & Curio Shop', 'image'],
+  ['assets/safari-media/safari-06.jpeg', 'Plains Zebra in Golden Evening Light', 'image'],
+  ['assets/safari-media/safari-07.jpeg', 'Baboon Mother & Baby', 'image'],
+  ['assets/safari-media/safari-08.jpeg', 'Elephant Family at the Riverbed', 'image'],
+  ['assets/safari-media/safari-09.jpeg', 'Southern Ground Hornbill Foraging', 'image'],
+  ['assets/safari-media/safari-10.jpeg', 'Zebra Standing in the Thicket', 'image'],
+  ['assets/safari-media/safari-11.jpeg', 'Hippopotamus Duel in the River', 'image'],
+  ['assets/safari-media/safari-12.jpeg', 'Crimson Bushveld Sunset Silhouette', 'image'],
+  ['assets/safari-media/safari-13.jpeg', 'Sunset Reflections on the River', 'image'],
+  ['assets/safari-media/safari-14.jpeg', 'Lilac-Breasted Roller in Thorn Tree', 'image'],
+  ['assets/safari-media/safari-15.jpeg', 'Spotted Hyena on the Savannah', 'image'],
+  ['assets/safari-media/safari-16.jpeg', 'Elephant Herd with Newborn Calf', 'image'],
+  ['assets/safari-media/safari-17.jpeg', 'Vultures Displaying at a Sighting', 'image'],
+  ['assets/safari-media/safari-18.jpeg', 'Safari Guests Relaxing by Sabie River', 'image'],
+  ['assets/safari-media/safari-19.jpeg', 'Chacma Baboons in the Treetops', 'image'],
+  ['assets/safari-media/safari-20.jpeg', 'Young Male Lion at the Roadside', 'image'],
+  ['assets/safari-media/safari-21.jpeg', 'Geometer Moth with Chevron Wing Patterns', 'image'],
+  ['assets/safari-media/safari-22.jpeg', 'Skukuza Safari Lodge Baobab Courtyard', 'image'],
+  ['assets/safari-media/safari-23.jpeg', 'Wild Kruger Male Lion Portrait', 'image'],
+  ['assets/safari-media/safari-24.jpeg', 'Playful Baby Vervet Monkey Leaping', 'image'],
+  ['assets/safari-media/safari-25.jpeg', 'Vultures Competing on the Savannah', 'image'],
+  ['assets/safari-media/safari-26.jpeg', 'Smiling Senior Guests with Cotter Safaris', 'image'],
+  ['assets/safari-media/safari-27.jpeg', 'Bird Photography from Lake Panic Hide', 'image'],
+  ['assets/safari-media/safari-28.jpeg', 'Bush Breakfast Stop in Kruger', 'image'],
+  ['assets/safari-media/safari-29.jpeg', 'Happy Guests Arriving for Safari', 'image'],
+  ['assets/safari-media/safari-30.jpeg', 'Guests with Michael Cotter at Sabie Bridge', 'image'],
+  ['assets/safari-media/safari-31.jpeg', 'Guests Enjoying Skukuza Rest Camp', 'image'],
+  ['assets/safari-media/safari-32.jpeg', 'African Sun Through Acacia Branches', 'image'],
+  ['assets/safari-media/safari-33.jpeg', 'Southern Ground Hornbill Close-Up', 'image'],
+  ['assets/safari-media/safari-34.jpeg', 'Lead Guide Michael Cotter Greeting Guests', 'image'],
+  ['assets/safari-media/safari-35.jpeg', 'Guests Observing Wildlife from Bird Hide', 'image'],
+  ['assets/safari-media/safari-video-1.mp4', 'Giraffes Browsing roadside Canopy', 'video'],
+  ['assets/safari-media/safari-video-2.mp4', 'Safari Vehicle Wildlife Encounter', 'video'],
+  ['assets/safari-media/safari-video-3.mp4', 'Close Bushveld Wildlife Sighting', 'video'],
+  ['assets/safari-media/safari-video-4.mp4', 'Day One Highlights: Monitor, Hippos, Storks & Crocs', 'video']
 ];
-photos.push(['assets/safari-media/safari-01.jpeg','Elephant & Buffalo at the Waterhole','image']);
-photos.push(['assets/safari-media/safari-02.jpeg','Giraffes Browsing the Acacia','image']);
-photos.push(['assets/safari-media/safari-03.jpeg','Impala Lily in Bloom','image']);
-photos.push(['assets/safari-media/safari-04.jpeg','Giraffes on the Kruger Road','image']);
-photos.push(['assets/safari-media/safari-05.jpeg','Kruger Safari Moment 5','image']);
-photos.push(['assets/safari-media/safari-06.jpeg','Plains Zebra in the Evening Light','image']);
-photos.push(['assets/safari-media/safari-07.jpeg','Baboon Mother & Baby','image']);
-photos.push(['assets/safari-media/safari-08.jpeg','Kruger Safari Moment 8','image']);
-photos.push(['assets/safari-media/safari-09.jpeg','Southern Ground Hornbill','image']);
-photos.push(['assets/safari-media/safari-10.jpeg','Zebra in the Thicket','image']);
-photos.push(['assets/safari-media/safari-11.jpeg','Kruger Safari Moment 11','image']);
-photos.push(['assets/safari-media/safari-12.jpeg','Kruger Safari Moment 12','image']);
-photos.push(['assets/safari-media/safari-13.jpeg','Kruger Safari Moment 13','image']);
-photos.push(['assets/safari-media/safari-14.jpeg','Kruger Safari Moment 14','image']);
-photos.push(['assets/safari-media/safari-15.jpeg','Kruger Safari Moment 15','image']);
-photos.push(['assets/safari-media/safari-16.jpeg','Kruger Safari Moment 16','image']);
-photos.push(['assets/safari-media/safari-17.jpeg','Kruger Safari Moment 17','image']);
-photos.push(['assets/safari-media/safari-18.jpeg','Guests at the Sabie River','image']);
-photos.push(['assets/safari-media/safari-19.jpeg','Baboons in the Treetops','image']);
-photos.push(['assets/safari-media/safari-20.jpeg','Young Lion at the Roadside','image']);
-photos.push(['assets/safari-media/safari-21.jpeg','Kruger Safari Moment 21','image']);
-photos.push(['assets/safari-media/safari-22.jpeg','Baobab at the Lodge','image']);
-photos.push(['assets/safari-media/safari-23.jpeg','Kruger Safari Moment 23','image']);
-photos.push(['assets/safari-media/safari-24.jpeg','Kruger Safari Moment 24','image']);
-photos.push(['assets/safari-media/safari-25.jpeg','Vultures at a Kill','image']);
-photos.push(['assets/safari-media/safari-26.jpeg','Kruger Safari Moment 26','image']);
-photos.push(['assets/safari-media/safari-27.jpeg','Photographing from the Hide','image']);
-photos.push(['assets/safari-media/safari-28.jpeg','Breakfast Stop in the Park','image']);
-photos.push(['assets/safari-media/safari-29.jpeg','Kruger Safari Moment 29','image']);
-photos.push(['assets/safari-media/safari-30.jpeg','Guests with the Skukuza Bridge','image']);
-photos.push(['assets/safari-media/safari-31.jpeg','Happy Guests at Skukuza','image']);
-photos.push(['assets/safari-media/safari-video-1.mp4','Kruger Sighting — Video 1','video']);
-photos.push(['assets/safari-media/safari-video-2.mp4','Kruger Sighting — Video 2','video']);
-photos.push(['assets/safari-media/safari-video-3.mp4','Kruger Sighting — Video 3','video']);
+
+
+// lightbox-video-close-handler
+const lightboxDialog = document.getElementById('lightbox');
+if (lightboxDialog) {
+  lightboxDialog.addEventListener('close', () => {
+    const vid = document.getElementById('lightbox-video');
+    if (vid) {
+      vid.pause();
+      vid.removeAttribute('src');
+      vid.load();
+    }
+  });
+}
+
 let photoIndex=0;
 function showPhoto(i){
   photoIndex=(i+photos.length)%photos.length;
@@ -334,11 +346,29 @@ function showPhoto(i){
   const vid=$('#lightbox-video');
   const cap=$('#photo-caption');
   const p=photos[photoIndex];
+  if(!p) return;
   const isVideo=p[2]==='video';
-  const src=p[0].includes('/')?p[0]:'assets/'+p[0]+'.webp';
-  if(vid){ vid.pause(); vid.hidden=!isVideo; if(isVideo){ vid.src=src; } else { vid.removeAttribute('src'); vid.load(); } }
-  if(img){ img.hidden=isVideo; if(!isVideo){ img.src=src; img.alt=p[1]; } }
-  if(cap){ cap.textContent=''; }
+  const src=p[0];
+  if(vid){
+    vid.pause();
+    vid.hidden=!isVideo;
+    if(isVideo){
+      vid.src=src;
+      vid.load();
+    } else {
+      vid.removeAttribute('src');
+    }
+  }
+  if(img){
+    img.hidden=isVideo;
+    if(!isVideo){
+      img.src=src;
+      img.alt=p[1];
+    }
+  }
+  if(cap){
+    cap.textContent=p[1]+' · '+(photoIndex+1)+' / '+photos.length;
+  }
 }
 $$('[data-gallery]').forEach(b=>b.addEventListener('click',()=>{
   if(document.body.classList.contains('editing')) return;
@@ -377,11 +407,7 @@ $$('[data-experience]').forEach(b=>b.addEventListener('click',()=>{
   }
 }));
 $$('[data-policy]').forEach(b=>b.onclick=()=>{
-  $('#detail-title').textContent=b.dataset.policy==='privacy'?'Privacy Policy':'Terms & Conditions';
-  $('#detail-copy').textContent=b.dataset.policy==='privacy'
-    ?'This website uses browser storage only to keep your local text edits. Enquiry details are passed to your email application when you choose to compose an email. Contact Cotter Safaris for its full privacy policy.'
-    :'Please contact Cotter Safaris directly for booking terms, availability and cancellation conditions.';
-  $('#details').showModal();
+  window.location.href=b.dataset.policy==='privacy'?'privacy.html':'terms.html';
 });
 
 // Gallery filtering
@@ -406,6 +432,10 @@ const chatInput=$('#chat-input');
 const chatSend=$('#chat-send');
 
 const knowledgeAnswers=[
+  {
+    keys:['date','dates','departure','departures','september','march','when','upcoming'],
+    answer:'Our September 2–7, 2026 safari is now <strong>Tour Closed</strong>. Bookings are currently open for our confirmed <strong>March 2027 Autumn Safari</strong> (5 Nights / 6 Days, Cape Town flights included). Message Michael on WhatsApp or submit an enquiry to reserve your room!'
+  },
   {
     keys:['price','cost','rate','how much','r38','pricing','fee'],
     answer:'Our 5-night Kruger Safari starts from <strong>R38,950 per person sharing</strong>. This includes return flights from Cape Town, Skukuza Safari Lodge accommodation, guided morning and afternoon game drives with Michael Cotter, and daily buffet breakfasts.'
@@ -432,7 +462,7 @@ const knowledgeAnswers=[
   },
   {
     keys:['book','reserve','dates','availability','contact','whatsapp','phone'],
-    answer:'You can check availability and request dates directly via our <strong>Plan Your Safari</strong> form, or message Michael on WhatsApp at <strong>+27 82 123 4567</strong>!'
+    answer:'You can check availability and request dates directly via our <strong>Plan Your Safari</strong> form, or message Michael on WhatsApp at <strong>079 246 4998</strong>!'
   },
   {
     keys:['safe','safety','medical','doctor','insurance','first aid'],
@@ -581,3 +611,41 @@ if(dp) dp.onclick=()=>{
   setTimeout(()=>URL.revokeObjectURL(url),1000);
   $('#edit-status').textContent='Downloaded. Replace HTML file to keep these edits permanently.';
 };
+
+// Enhanced Gallery Category Filtering
+(function initGalleryFilter() {
+  const filterTabs = document.querySelectorAll('.gallery-tab, [data-filter]');
+  const photoCards = document.querySelectorAll('.gallery-photo-card');
+  const countNumEl = document.getElementById('gallery-counter-num');
+  const legacyCountEl = document.querySelector('.gallery-count');
+
+  if (!filterTabs.length) return;
+
+  filterTabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterTabs.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+
+      const filter = btn.dataset.filter;
+      let visibleCount = 0;
+
+      photoCards.forEach(card => {
+        const cat = card.dataset.category;
+        const match = (filter === 'all') || (cat === filter);
+        if (match) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (countNumEl) countNumEl.textContent = visibleCount;
+      if (legacyCountEl) legacyCountEl.textContent = visibleCount + ' item' + (visibleCount === 1 ? '' : 's');
+    });
+  });
+})();
